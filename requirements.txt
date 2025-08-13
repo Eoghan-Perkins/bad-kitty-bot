@@ -1,0 +1,16 @@
+# Core scientific stack
+numpy>=1.24
+opencv-python>=4.9.0
+# If you plan to run headless locally, you can swap to opencv-python-headless
+
+# Inference
+onnx>=1.15.0
+onnxruntime>=1.18.0
+
+# Config & utilities
+pyyaml>=6.0.1
+flask>=3.0.0
+
+# Dev tooling (optional; safe to remove)
+matplotlib>=3.8.0      # for quick local visualization when debugging
+pytest>=8.0.0          # for unit tests if you add them
