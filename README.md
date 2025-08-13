@@ -1,7 +1,7 @@
-# Bad‑Kitty — Cat‑on‑Counter Vision Prototype (Phases 0–1)
+# Bad‑Kitty — Cat‑on‑Counter Vision Prototype
 
 A small, humane robot project to discourage cats from walking on kitchen counters.  
-**This repo covers Phases 0–1 only:** setup + the vision prototype (detect “cat on countertop” inside a polygon ROI), with snapshots/logging and safety‑minded detection guards (persistence + cooldown). No actuation yet.
+**Phases 0–1:** setup + the vision prototype (detect “cat on countertop” inside a polygon ROI), with snapshots/logging and safety‑minded detection guards (persistence + cooldown). No actuation yet.
 
 ---
 
