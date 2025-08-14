@@ -13,10 +13,12 @@
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
+
+PI_USER="bad-kitty"
 PI_HOST="${PI_HOST:-bad-kitty@bad-kitty.local}"
 PI_DIR="${PI_DIR:-/home/bad-kitty/main}"
 PI_SSH_KEY="${PI_SSH_KEY:-$HOME/.ssh/id_rsa}"
-EXCLUDE_LIST=(${EXCLUDE:-.venv .git __pycache__ data/events *.mp4 *.jpg})
+EXCLUDE_LIST=(${EXCLUDE:-.bk-venv .git __pycache__ data/events *.mp4 *.jpg})
 RSYNC_EXTRA="${RSYNC_EXTRA:-}"
 
 # ---------------------------
@@ -83,10 +85,23 @@ for item in "${EXCLUDE_LIST[@]}"; do
 done
 
 # Ensure remote directory exists (allow interactive auth if agent not available)
-ssh ${SSH_OPTS} "${PI_HOST}" "mkdir -p '${PI_DIR}'"
+ssh ${SSH_OPTS} "${PI_HOST}" "mkdir -p '${PI_DIR}' ; echo 'cwd: ${PWD}'"
+
 
 # Sync
 rsync -avz --delete "${EXCLUDES[@]}" ${RSYNC_EXTRA} -e "${RSYNC_RSH}" ./ "${PI_HOST}:${PI_DIR}"
 
+echo "[bk] synced project files to bad-kitty@bad-kitty.local."
+echo "[bk] downloading missing dependencies..."
+
+# Install requirements on Pi
+ssh $PI_HOST <<'EOF'
+source ~/main/.bk-venv/bin/activate
+cd main
+python -m pip install --upgrade pip
+python -m pip install -r ~/main/requirements.txt
+EOF
+
+echo "[bk] project dependencies installed."
 echo "[bk] done."
-echo "[bk] tip: on the Pi, run: ${PI_DIR}/scripts/run_on_pi.sh"
+
