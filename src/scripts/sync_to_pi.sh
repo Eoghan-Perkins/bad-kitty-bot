@@ -11,6 +11,7 @@
 #   RSYNC_EXTRA="--dry-run"
 
 set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
 
 PI_HOST="${PI_HOST:-bad-kitty@bad-kitty.local}"
 PI_DIR="${PI_DIR:-/home/bad-kitty/main}"
