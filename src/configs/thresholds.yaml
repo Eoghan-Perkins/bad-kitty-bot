@@ -1,0 +1,3 @@
+confidence_threshold: 0.55
+persistence_time_s: 0.7
+min_roi_overlap: 0.25

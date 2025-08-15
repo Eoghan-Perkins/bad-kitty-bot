@@ -6,6 +6,7 @@ opencv-python>=4.9.0
 # Inference
 onnx>=1.15.0
 onnxruntime>=1.18.0
+ultralytics>=8.3.179
 
 # Config & utilities
 pyyaml>=6.0.1
