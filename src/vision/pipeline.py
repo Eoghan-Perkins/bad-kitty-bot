@@ -4,6 +4,14 @@ import cv2
 import numpy as np
 import yaml
 import sys
+from src.tools.monitor_pi import get_cpu_temp
+
+def fourcc_to_str(v):
+    try:
+        v = int(v)
+        return "".join([chr((v >> (8*i)) & 0xFF) for i in range(4)])
+    except Exception:
+        return "????"
 
 
 def main():
@@ -40,6 +48,8 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, DEV.get("height", 720))
     cap.set(cv2.CAP_PROP_FPS,          DEV.get("fps", 30))
 
+    print(f"""camera: {cap.get(cv2.CAP_PROP_FRAME_WIDTH)}x{cap.get(cv2.CAP_PROP_FRAME_HEIGHT)}, FPS:{cap.get(cv2.CAP_PROP_FPS)}, fourcc: {fourcc_to_str(cap.get(cv2.CAP_PROP_FOURCC))}""")
+
     if not cap.isOpened():
         raise RuntimeError(
             f"Could not open camera index {cam_index} with backend {CAP_BACKEND}. "
@@ -58,6 +68,8 @@ def main():
         while True:
             t0 = time.time()
             ok, frame = cap.read()
+            print(f'CPU Temp: {get_cpu_temp()}')
+            
             if not ok:
                 # Camera hiccup; skip this loop
                 continue
